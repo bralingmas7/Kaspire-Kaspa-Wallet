@@ -36,11 +36,15 @@ jobs:
           toolchain: "1.91.0"
           targets: aarch64-linux-android,armv7-linux-androideabi
 
+      
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Install Android NDK
         shell: bash
         run: |
-          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null
-          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;28.2.13676358"
+          sdkmanager --licenses || true
+          sdkmanager --install "ndk;28.2.13676358"
           echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/28.2.13676358" >> "$GITHUB_ENV"
 
       - name: Build Rust security core
